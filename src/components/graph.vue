@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, reactive, watch } from 'vue'
 import { useStore } from '../stores/persons'
 import * as d3 from "d3"
 
@@ -15,7 +14,7 @@ const data = store.graphData
 const generateGraph = (() => {
   //清除之前画的图
   const container = document.getElementById('container') as HTMLElement
-  container.childNodes.forEach(child => child.remove())
+  container.innerHTML = ''
 
   // Declare the chart dimensions and margins.
   const width = 0.55 * window.innerWidth;
@@ -27,14 +26,14 @@ const generateGraph = (() => {
 
   // Declare the x (horizontal position) scale.
   const x = d3.scaleLinear()
-    // .domain([d3.min(data, (d: any) => d.x), d3.max(data, (d: any) => d.x)]).nice()
-    .domain([-100, 100]).nice()
+    .domain([d3.min(data, (d: any) => d.x), d3.max(data, (d: any) => d.x)]).nice()
+    // .domain([-100, 100]).nice()
     .range([marginLeft, width - marginRight]);
 
   // Declare the y (vertical position) scale.
   const y = d3.scaleLinear()
-    // .domain([d3.min(data, (d: any) => d.y), d3.max(data, (d: any) => d.y)])
-    .domain([-100, 100]).nice()
+    .domain([d3.min(data, (d: any) => d.y), d3.max(data, (d: any) => d.y)])
+    // .domain([-100, 100]).nice()
     .range([height - marginBottom, marginTop]);
 
   // Create the SVG container.
@@ -92,11 +91,8 @@ const generateGraph = (() => {
   }) as any);
 
   // Append the SVG element.
-
   container.append(svg.node() as SVGSVGElement);
 })
-
-const emit = defineEmits(['change'])
 
 defineExpose({ generateGraph })
 

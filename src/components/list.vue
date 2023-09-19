@@ -5,7 +5,7 @@
       <el-input-number v-model="num" :min="2" :max="200" />
     </div>
     <el-table :data="tabelData" tooltip-effect="dark" style="width: 100%" border height="80vh"
-      :row-class-name="tableRowClassName" @selection-change="handleSelectionChange">
+      :row-class-name="tableRowClassName">
       <el-table-column prop="idx" label="编号" sortable />
       <el-table-column prop="name" label="姓名" sortable />
       <el-table-column prop="A" label="A" sortable />
@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang='ts'>
-import { getCurrentInstance, ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useStore } from '../stores/persons'
 
 
@@ -40,10 +40,6 @@ const num = ref<number>(100)
 
 const generateData = (): void => {
   emit('generate', num)
-}
-
-const handleSelectionChange = () => {
-
 }
 
 const tableRowClassName = ({
